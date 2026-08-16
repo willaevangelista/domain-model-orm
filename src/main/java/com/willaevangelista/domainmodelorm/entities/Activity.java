@@ -25,7 +25,7 @@ public class Activity implements Serializable {
     private Double preco;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id")
+    @JoinColumn(name = "category_id")
     private Category categoria;
 
     @ManyToMany
@@ -34,15 +34,19 @@ public class Activity implements Serializable {
                 inverseJoinColumns = @JoinColumn(name = "participant_id"))
     private Set<Participant> participantes = new HashSet<>();
 
+    @OneToMany(mappedBy = "atividade")
+    private Set<TimeSlot> blocos = new HashSet<>();
+
     public Activity() {}
 
-    public Activity(Integer id, String nome, String descricao, Double preco, Category categoria, Set<Participant> participantes) {
+    public Activity(Integer id, String nome, String descricao, Double preco, Category categoria, Set<Participant> participantes, Set<TimeSlot> blocos) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
         this.categoria = categoria;
         this.participantes = participantes;
+        this.blocos = blocos;
     }
 
     public Integer getId() {
@@ -73,8 +77,20 @@ public class Activity implements Serializable {
         this.preco = preco;
     }
 
+    public Category getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Category categoria) {
+        this.categoria = categoria;
+    }
+
     public Set<Participant> getParticipantes() {
         return participantes;
+    }
+
+    public Set<TimeSlot> getBlocos() {
+        return blocos;
     }
 
     @Override
