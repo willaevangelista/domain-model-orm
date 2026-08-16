@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_category")
@@ -20,11 +22,15 @@ public class Category implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
+    @OneToMany(mappedBy = "categoria")
+    private Set<Activity> atividades = new HashSet<>();
+
     public Category() {}
 
-    public Category(Integer id, String descricao) {
+    public Category(Integer id, String descricao, Set<Activity> atividades) {
         this.id = id;
         this.descricao = descricao;
+        this.atividades = atividades;
     }
 
     public Integer getId() {
@@ -37,6 +43,10 @@ public class Category implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Set<Activity> getAtividades() {
+        return atividades;
     }
 
     @Override
